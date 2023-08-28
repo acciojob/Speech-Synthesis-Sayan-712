@@ -37,6 +37,45 @@
   const stopButton = document.querySelector('#stop');
 
   //Your code goes here
+	const synth=window.speechSynthesis;
+	function getVoices()
+		{
+		voices=synth.getVoices();
+			voices.forEach(voice)=>
+			{
+				opt=document.createElement("option");
+				opt.innerText=voice.name;
+				opt.value=voice.name;
+				opt.setAttribute("data-voice",voice.name);
+				voicesDropdown.appendChild(opt);
+			})
+	}
+	speechSynthesis.onvoiceschanged=getVoices;
+	getVoices();
+	function speakAi()
+		{
+			if(textarea.value!== "")
+			{
+				let sayThis=new SpeechSynthesisUtterance(textarea.value);
+				let selectedVoice=voicesDropdown.selectedOptions[0].getAttribute("data-voice");
+				voices.forEach(voice)=>
+				{
+					if(selectedVoice === voice.name)
+					{
+						sayThis.voice=voice;
+					}
+				});
+				synth.speak(sayThis);
+			}
+		}
+	speakButton.addEventListener('click', function() 
+	{
+		speakAi();
+	})
+	stopButton.addEventListener('click', function()
+								{
+									synth.cancel();
+								})
 </script>
 
 </body>
